@@ -55,7 +55,7 @@ build {
       "scripts/ubuntu/awscliv2.sh",
       "scripts/ubuntu/azure-cli.sh",
       "scripts/ubuntu/bash-completion.sh",
-      "scripts/ubuntu/btftool.sh",
+      "scripts/ubuntu/bpftool.sh",
       "scripts/ubuntu/docker.sh",
       "scripts/ubuntu/doctl.sh",
       "scripts/ubuntu/gcloud.sh",
