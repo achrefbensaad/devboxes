@@ -54,5 +54,4 @@ jobs:
           sudo apt update && sudo apt install vagrant -y
       - name: Install virtualbox
         run: |
-          wget https://download.virtualbox.org/virtualbox/7.1.4/virtualbox-7.1_7.1.4-165100~Ubuntu~jammy_amd64.deb
-          sudo dpkg -i *.deb
+          sudo apt install virtualbox -y
