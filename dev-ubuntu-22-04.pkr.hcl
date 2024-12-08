@@ -23,6 +23,12 @@ build {
     execute_command = "echo 'vagrant' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'"
     inline          = ["apt update -y"]
   }
+
+  provisioner "shell" {
+    execute_command = "echo 'vagrant' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'"
+    inline          = ["apt upgrade -y"]
+  }
+
   provisioner "shell" {
     execute_command = "echo 'vagrant' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'"
     environment_vars = [
