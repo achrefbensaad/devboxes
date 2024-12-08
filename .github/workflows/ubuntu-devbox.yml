@@ -55,3 +55,6 @@ jobs:
       - name: Install virtualbox
         run: |
           sudo apt install virtualbox -y
+      
+      - name: Build
+        run: "packer build dev-ubuntu-22-04.pkr.hcl"
