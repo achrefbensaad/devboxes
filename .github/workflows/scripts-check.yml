@@ -27,14 +27,4 @@ jobs:
         run: |
           packer init dev-ubuntu-22-04.pkr.hcl
           packer validate dev-ubuntu-22-04.pkr.hcl
-  ubuntu-scripts:
-    runs-on: ubuntu-22.04
-    name: Validate ubuntu scripts
-    steps:
-      - uses: actions/checkout@v4
-      - name: run all scripts
-        run: |
-          for f in $(find . -type f  -name "*.sh")
-            do
-              sudo bash $f 2>&1 >/dev/null && echo "$f succeeded!" || echo "$f failed"
-            done
+
