@@ -38,9 +38,10 @@ jobs:
           version: ${{ env.PRODUCT_VERSION }}
       - name: ls
         run: ls -alh
+
       - name: Validate
         id: validate
-        run: "packer validate ./dev-ubuntu-22-04.pkr.hcl"
+        run: "packer validate dev-ubuntu-22-04.pkr.hcl"
 
       - name: Install vagrant
         run: |
