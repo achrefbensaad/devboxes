@@ -23,7 +23,9 @@ jobs:
 
       - name: Validate
         id: validate
-        run: "packer validate ./dev-ubuntu-22-04.pkr.hcl"
+        run: |
+          packer init dev-ubuntu-22-04.pkr.hcl
+          packer validate dev-ubuntu-22-04.pkr.hcl
 
   build:
     runs-on: ubuntu-22.04
@@ -41,7 +43,9 @@ jobs:
 
       - name: Validate
         id: validate
-        run: "packer validate dev-ubuntu-22-04.pkr.hcl"
+        run: |
+          packer init dev-ubuntu-22-04.pkr.hcl
+          packer validate dev-ubuntu-22-04.pkr.hcl
 
       - name: Install vagrant
         run: |
