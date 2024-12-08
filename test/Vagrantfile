@@ -1,12 +1,10 @@
  Vagrant.configure("2") do |config|
   config.vm.box_check_update = true
   config.vm.define "test" do |machine|
-    machine.vm.hostname = "test.internal.cybersec-lab.com"
-    machine.vm.box = "test"
+    machine.vm.hostname = "test"
+    machine.vm.box = "devboxes/ubuntu-22-04"
     machine.vm.provider "virtualbox" do |vb|
       vb.gui = false
-      vb.memory = "4200"
-      vb.cpus = 4
     end
   end
 end

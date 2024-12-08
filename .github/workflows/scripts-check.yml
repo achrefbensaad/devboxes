@@ -1,0 +1,40 @@
+name: Scripts check
+
+on:
+  push:
+    branches:
+      - "*"
+  workflow_call:
+
+env:
+  PRODUCT_VERSION: "latest"
+
+jobs:
+  packer-validate:
+    runs-on: ubuntu-22.04
+    name: Packer validate
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup packer
+        uses: hashicorp/setup-packer@main
+        id: setup
+        with:
+          version: ${{ env.PRODUCT_VERSION }}
+      - name: Validate
+        env:
+          HCP_CLIENT_ID: "HCP_CLIENT_ID"
+          HCP_CLIENT_SECRET: "HCP_CLIENT_SECRET"
+        run: |
+          packer init dev-ubuntu-22-04.pkr.hcl
+          packer validate dev-ubuntu-22-04.pkr.hcl
+  ubuntu-scripts:
+    runs-on: ubuntu-22.04
+    name: Validate ubuntu scripts
+    steps:
+      - uses: actions/checkout@v4
+      - name: run all scripts
+        run: |
+          for f in $(find . -type f  -name "*.sh")
+            do
+              sudo bash $f 2>&1 >/dev/null && echo "$f succeeded!" || echo "$f failed"
+            done

@@ -7,6 +7,17 @@ packer {
   }
 }
 
+variable "hcp_client_id" {
+  type    = string
+  default = "${env("HCP_CLIENT_ID")}"
+}
+
+variable "hcp_client_secret" {
+  type    = string
+  default = "${env("HCP_CLIENT_SECRET")}"
+}
+
+
 source "vagrant" "devbox-ubuntu-22-04" {
   add_force    = true
   communicator = "ssh"
@@ -38,6 +49,7 @@ build {
       "scripts/ubuntu/disable-updates.sh",
       "scripts/ubuntu/base-packages.sh",
 
+      "scripts/ubuntu/act.sh",
       "scripts/ubuntu/actionlint.sh",
       "scripts/ubuntu/ansible.sh",
       "scripts/ubuntu/awscliv2.sh",
@@ -63,4 +75,12 @@ build {
     ]
   }
 
+
+    post-processor "vagrant-registry" {
+      client_id     = "${var.hcp_client_id}"
+      client_secret = "${var.hcp_client_secret}"
+      box_tag       = "devboxes/ubuntu-22-04"
+      version       = "2024.12.8"
+      architecture  = "amd64"
+    }
 }
