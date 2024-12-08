@@ -7,6 +7,6 @@ get_latest_release() {
     sed -E 's/.*"([^"]+)".*/\1/'                                    # Pluck JSON value
 }
 
-wget https://github.com/k0sproject/k0sctl/releases/download/$(get_latest_release $repo)/k0sctl-linux-amd64
+wget https://github.com/k0sproject/k0sctl/releases/download/"$(get_latest_release $repo)"/k0sctl-linux-amd64
 chmod +x k0sctl-linux-amd64
 mv k0sctl-linux-amd64 /bin/k0sctl
