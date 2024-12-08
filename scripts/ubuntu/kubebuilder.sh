@@ -9,6 +9,6 @@ get_latest_release() {
 
 VERSION=$(get_latest_release $repo )
 
-wget --quiet https://github.com/kubernetes-sigs/kubebuilder/releases/download/"$VERSION"/kubebuilder_linux_amd64 -O /tmp/build/kubebuilder
-chmod +x /tmp/build/kubebuilder
-mv /tmp/build/kubebuilder /usr/local/bin
+wget --quiet https://github.com/kubernetes-sigs/kubebuilder/releases/download/"$VERSION"/kubebuilder_linux_amd64 -O kubebuilder
+chmod +x kubebuilder
+mv kubebuilder /usr/local/bin
