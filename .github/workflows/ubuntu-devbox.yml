@@ -1,0 +1,67 @@
+name: ubuntu 22.04 devbox build
+
+on:
+  schedule:
+    - cron: "0 1 9 */1 *"
+
+env:
+  PRODUCT_VERSION: "latest"
+
+jobs:
+  validate:
+    uses: ./.github/workflows/scripts-check.yml
+
+  build:
+    runs-on: ubuntu-22.04
+    needs: 
+      - validate
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup packer
+        uses: hashicorp/setup-packer@main
+        id: setup
+        with:
+          version: ${{ env.PRODUCT_VERSION }}
+
+      - name: Install vagrant
+        run: |
+          wget -O - https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+          echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+          sudo apt update && sudo apt install vagrant -y
+
+      - name: Install virtualbox
+        run: |
+          sudo apt install virtualbox -y
+      
+      - name: Build
+        env:
+          HCP_CLIENT_ID: ${{ secrets.HCP_CLIENT_ID }}
+          HCP_CLIENT_SECRET: ${{ secrets.HCP_CLIENT_SECRET }}
+        run: |
+          BUILD_DATE=$(date  "+%Y.%m.%d") packer build dev-ubuntu-22-04.pkr.hcl
+
+  test:
+    runs-on: ubuntu-22.04
+    needs:
+      - build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install vagrant
+        run: |
+          wget -O - https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+          echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+          sudo apt update && sudo apt install vagrant -y
+
+      - name: Install virtualbox
+        run: |
+          sudo apt install virtualbox -y
+      - name: Try vagrant up
+        working-directory: ./test
+        env:
+          HCP_CLIENT_ID: ${{ secrets.HCP_CLIENT_ID }}
+          HCP_CLIENT_SECRET: ${{ secrets.HCP_CLIENT_SECRET }}
+        run: vagrant up        

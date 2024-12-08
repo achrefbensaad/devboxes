@@ -1,12 +1,14 @@
 #!/bin/bash
 
-repo=k0sproject/k0sctl
+repo=kubernetes-sigs/kubebuilder
 get_latest_release() {
   curl --silent "https://api.github.com/repos/$1/releases/latest" | # Get latest release from GitHub api
     grep '"tag_name":' |                                            # Get tag line
     sed -E 's/.*"([^"]+)".*/\1/'                                    # Pluck JSON value
 }
 
-wget https://github.com/k0sproject/k0sctl/releases/download/"$(get_latest_release $repo)"/k0sctl-linux-amd64
-chmod +x k0sctl-linux-amd64
-mv k0sctl-linux-amd64 /bin/k0sctl
+VERSION=$(get_latest_release $repo )
+
+wget --quiet https://github.com/kubernetes-sigs/kubebuilder/releases/download/"$VERSION"/kubebuilder_linux_amd64 -O kubebuilder
+chmod +x kubebuilder
+mv kubebuilder /usr/local/bin

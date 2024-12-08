@@ -9,9 +9,9 @@ get_latest_release() {
 
 VERSION=$(get_latest_release $repo | sed -E "s/^v//" )
 TMP_DIR=$(mktemp -d)
-pushd $TMP_DIR
-wget https://github.com/rhysd/actionlint/releases/download/v$VERSION/actionlint_"$VERSION"_linux_amd64.tar.gz
+pushd "$TMP_DIR" || exit 1
+wget https://github.com/rhysd/actionlint/releases/download/v"$VERSION"/actionlint_"$VERSION"_linux_amd64.tar.gz
 tar xf actionlint_"$VERSION"_linux_amd64.tar.gz
 mv actionlint /bin/
-popd
-rm $TMP_DIR -rf
+popd || exit 1
+rm "$TMP_DIR" -rf
