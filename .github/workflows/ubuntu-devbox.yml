@@ -2,7 +2,7 @@ name: ubuntu 22.04 devbox build
 
 on:
   schedule:
-    - cron: "0 9 */9 */1 *"
+    - cron: "0 14 9 */1 *"
 
 env:
   PRODUCT_VERSION: "latest"
