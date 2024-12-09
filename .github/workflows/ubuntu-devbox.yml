@@ -2,7 +2,7 @@ name: ubuntu 22.04 devbox build
 
 on:
   schedule:
-    - cron: "0 1 9 */1 *"
+    - cron: "0 8 */9 */1 *"
 
 env:
   PRODUCT_VERSION: "latest"
@@ -40,6 +40,7 @@ jobs:
           HCP_CLIENT_ID: ${{ secrets.HCP_CLIENT_ID }}
           HCP_CLIENT_SECRET: ${{ secrets.HCP_CLIENT_SECRET }}
         run: |
+          packer init dev-ubuntu-22-04.pkr.hcl
           BUILD_DATE=$(date  "+%Y.%m.%d") packer build dev-ubuntu-22-04.pkr.hcl
 
   test:
