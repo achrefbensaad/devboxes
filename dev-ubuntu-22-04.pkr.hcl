@@ -22,7 +22,7 @@ source "vagrant" "devbox-ubuntu-22-04" {
   add_force    = true
   communicator = "ssh"
   provider     = "virtualbox"
-  source_path  = "bento/ubuntu-20.04"
+  source_path  = "bento/ubuntu-22.04"
   insert_key   = true
 }
 
